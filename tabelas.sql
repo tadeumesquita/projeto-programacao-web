@@ -3,8 +3,8 @@ CREATE TABLE `cursos` (
   `id`   SERIAL,
   `nome` VARCHAR (50) NOT NULL,
   `qtde` INTEGER NOT NULL,
-  CONSTRAINT `pk_id_c` PRIMARY KEY (`id`),
-  CONSTRAINT `uk_nome_c` UNIQUE (`nome`)
+  CONSTRAINT `pk_c_id` PRIMARY KEY (`id`),
+  CONSTRAINT `uk_c_nome` UNIQUE (`nome`)
 );
 
 -- Tabela: Disciplinas
@@ -13,8 +13,8 @@ CREATE TABLE `disciplinas` (
   `fk_curso` SERIAL,
   `nome`     VARCHAR (50) NOT NULL,
   `semestre` INTEGER NOT NULL,
-  CONSTRAINT `pk_id_d` PRIMARY KEY (`id`),
-  CONSTRAINT `fk_id_d` FOREIGN KEY (`fk_curso`) REFERENCES `cursos` (`id`)
+  CONSTRAINT `pk_d_id` PRIMARY KEY (`id`),
+  CONSTRAINT `fk_d_fk_curso` FOREIGN KEY (`fk_curso`) REFERENCES `cursos` (`id`)
 );
 
 -- Tabela: Planos de ensino
@@ -23,6 +23,6 @@ CREATE TABLE `planos_ensino` (
   `fk_disciplina` SERIAL,
   `objetivo`      VARCHAR (50),
   `conteudo`      TEXT,
-  CONSTRAINT `pk_id_p` PRIMARY KEY (`id`),
-  CONSTRAINT `fk_id_p` FOREIGN KEY (`fk_disciplina`) REFERENCES `disciplinas` (`id`)
+  CONSTRAINT `pk_pe_id` PRIMARY KEY (`id`),
+  CONSTRAINT `fk_pe_fk_disciplina` FOREIGN KEY (`fk_disciplina`) REFERENCES `disciplinas` (`id`)
 );
