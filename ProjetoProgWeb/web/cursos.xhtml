@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <h:head>
+        <title>Projeto Programação Web</title>
+
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible"
+              content="IE=edge" />
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1" />
+        
+        <link rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+              crossorigin="anonymous" />
+        <link rel="stylesheet"
+              href="css/estilo.css" />
+    </h:head>
+    <h:body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a href="#"
+                       class="navbar-brand">Controle de Planos de Ensino</a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 col-md-2 sidebar">
+                    <ul class="nav nav-sidebar">
+                        <li><a href="index.xhtml">Início</a></li>
+                        <li class="active"><a href="cursos.xhtml">Cursos <span class="sr-only">(current)</span></a></li>
+                        <li><a href="disciplinas.xhtml">Disciplinas</a></li>
+                        <li><a href="planos-de-ensino.xhtml">Planos de Ensino</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <h1 class="page-header">Cursos</h1>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th class="text-center">Qtde.</th>
+                                    <th class="col-acoes"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Análise e Desenvolvimento de Sistemas</td>
+                                    <td class="text-center">10</td>
+                                    <td class="text-right">
+                                        <a href="#"
+                                           class="btn btn-xs btn-primary">Editar</a>
+                                        <a href="#"
+                                           class="btn btn-xs btn-danger">Excluir</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <hr />
+                    
+                    <div class="clearfix">
+                        <a href="cadastro-de-cursos.xhtml"
+                           class="btn btn-primary">Adicionar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>

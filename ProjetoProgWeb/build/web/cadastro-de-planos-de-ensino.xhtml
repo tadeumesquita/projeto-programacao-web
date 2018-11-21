@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <h:head>
+        <title>Projeto Programação Web</title>
+
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible"
+              content="IE=edge" />
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1" />
+        
+        <link rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+              crossorigin="anonymous" />
+        <link rel="stylesheet"
+              href="css/estilo.css" />
+    </h:head>
+    <h:body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a href="#"
+                       class="navbar-brand">Controle de Planos de Ensino</a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 col-md-2 sidebar">
+                    <ul class="nav nav-sidebar">
+                        <li><a href="index.xhtml">Início</a></li>
+                        <li><a href="cursos.xhtml">Cursos</a></li>
+                        <li><a href="disciplinas.xhtml">Disciplinas</a></li>
+                        <li class="active"><a href="planos-de-ensino.xhtml">Planos de Ensino <span class="sr-only">(current)</span></a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <h1 class="page-header">Cadastro de Planos de Ensino</h1>
+                    
+                    <h:form>
+                        <div class="form-group">
+                            <label for="fk_disciplina">Disciplina</label>
+                            
+                            <input type="text"
+                                   class="form-control"
+                                   id="fk_disciplina" />
+                        </div>
+                        <div class="form-group">
+                            <label for="objetivo">Objetivo</label>
+                            
+                            <input type="text"
+                                   class="form-control"
+                                   id="objetivo"
+                                   placeholder="Ex.: Lógica de Programação"
+                                   jsf:value="#{planosEnsinoBean.planoEnsino.objetivo}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="conteudo">Conteúdo</label>
+                            
+                            <textarea class="form-control"
+                                      id="conteudo">#{planosEnsinoBean.planoEnsino.conteudo}</textarea>
+                        </div>
+                        
+                        <hr />
+
+                        <div class="clearfix">
+                            <a href="#"
+                               class="btn btn-primary"
+                               jsf:action="#{planosEnsinoBean.salvar()}">Salvar</a>
+                            <a href="planos-de-ensino.xhtml"
+                               class="btn btn-default">Voltar</a>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
