@@ -6,6 +6,7 @@
 package beans;
 
 import dao.DisciplinasDAO;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import model.Disciplinas;
@@ -35,10 +36,14 @@ public class DisciplinasBean {
     }
     
     public void salvar() {
-        disciplinasDAO.create(this.disciplina);
+        this.disciplinasDAO.create(this.disciplina);
         
         // Instancia um novo objeto da classe Disciplinas, zerando o formulário
         this.disciplina = new Disciplinas();
+    }
+    
+    public List<Disciplinas> listar() {
+        return this.disciplinasDAO.findDisciplinasEntities();
     }
     
 }

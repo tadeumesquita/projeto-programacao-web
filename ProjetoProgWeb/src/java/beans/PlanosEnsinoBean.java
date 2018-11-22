@@ -35,7 +35,7 @@ public class PlanosEnsinoBean {
     }
     
     public void salvar() {
-        planosEnsinoDAO.create(this.planoEnsino);
+        this.planosEnsinoDAO.create(this.planoEnsino);
         
         // Instancia um novo objeto da classe PlanosEnsino, zerando o formulário
         this.planoEnsino = new PlanosEnsino();

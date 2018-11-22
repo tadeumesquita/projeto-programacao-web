@@ -6,6 +6,7 @@
 package beans;
 
 import dao.CursosDAO;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import model.Cursos;
@@ -35,9 +36,13 @@ public class CursosBean {
     }
     
     public void salvar() {
-        cursosDAO.create(this.curso);
+        this.cursosDAO.create(this.curso);
         
         // Instancia um novo objeto da classe Cursos, zerando o formulário
         this.curso = new Cursos();
+    }
+    
+    public List<Cursos> listar() {
+        return this.cursosDAO.findCursosEntities();
     }
 }

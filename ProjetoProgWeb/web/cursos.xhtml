@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:jsf="http://xmlns.jcp.org/jsf">
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Projeto Programação Web</title>
 
@@ -52,17 +53,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Análise e Desenvolvimento de Sistemas</td>
-                                    <td class="text-center">10</td>
-                                    <td class="text-right">
-                                        <a href="#"
-                                           class="btn btn-xs btn-primary">Editar</a>
-                                        <a href="#"
-                                           class="btn btn-xs btn-danger">Excluir</a>
-                                    </td>
-                                </tr>
+                                <ui:repeat value="#{cursosBean.listar()}" var="c">
+                                    <tr>
+                                        <td>#{c.id}</td>
+                                        <td>#{c.nome}</td>
+                                        <td class="text-center">#{c.qtde}</td>
+                                        <td class="text-right">
+                                            <a href="#"
+                                               class="btn btn-xs btn-primary">Editar</a>
+                                            <a href="#"
+                                               class="btn btn-xs btn-danger">Excluir</a>
+                                        </td>
+                                    </tr>
+                                </ui:repeat>
                             </tbody>
                         </table>
                     </div>
