@@ -45,4 +45,28 @@ public class CursosBean {
     public List<Cursos> listar() {
         return this.cursosDAO.findCursosEntities();
     }
+    //peguei no exemplo do Jean
+    public void alterar(){
+        try {
+            cursosDAO.edit(curso);
+        } catch (Exception ex) {
+            Logger.getLogger(CursosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void excluir(){
+        try {
+            cursosDAO.destroy(contato.getId());
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(CursosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void excluir(Contatos c){
+        try {
+            cursosDAO.destroy(c.getId());
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(CursosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

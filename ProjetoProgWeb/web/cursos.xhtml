@@ -60,9 +60,13 @@
                                         <td class="text-center">#{c.qtde}</td>
                                         <td class="text-right">
                                             <a href="#"
-                                               class="btn btn-xs btn-primary">Editar</a>
+                                                class="btn btn-xs btn-primary"
+                                                jsf:action="#{cursosBean.alterar()">
+                                                Editar</a>
                                             <a href="#"
-                                               class="btn btn-xs btn-danger">Excluir</a>
+                                                class="btn btn-xs btn-danger"
+                                                jsf:action="#{cursosBean.excluir()}">
+                                                Excluir</a>
                                         </td>
                                     </tr>
                                 </ui:repeat>
@@ -70,6 +74,18 @@
                         </table>
                     </div>
                     
+
+                    
+                    <!--
+                    <a href="#" class="btn btn-success" 
+                    jsf:action="#{contatosBean.alterar()}">
+                     Alterar</a>
+                    <a href="#" class="btn btn-danger" 
+                    style="margin-left:10px;"
+                    jsf:action="#{contatosBean.excluir()}">
+                     Excluir</a>
+                    -->
+
                     <hr />
                     
                     <div class="clearfix">

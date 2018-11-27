@@ -6,6 +6,7 @@
 package beans;
 
 import dao.PlanosEnsinoDAO;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import model.PlanosEnsino;
@@ -41,4 +42,7 @@ public class PlanosEnsinoBean {
         this.planoEnsino = new PlanosEnsino();
     }
     
+    public List<PlanosEnsino> listar() {
+        return this.planosEnsinoDAO.findPlanosEnsinoEntities();
+    }
 }

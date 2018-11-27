@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:jsf="http://xmlns.jcp.org/jsf">
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Projeto Programação Web</title>
 
@@ -46,31 +47,33 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Disciplina</th>
+                                    <!--<th>ID Disciplina</th>-->
                                     <th>Objetivo</th>
                                     <th>Conteúdo</th>
                                     <th class="col-acoes"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Lógica de Programação</td>
-                                    <td>Entender o que é Lógica de Programação e colocar em prática o conteúdo aprendido em aula</td>
-                                    <td>Práticas em laboratório para aprendizado através das linguagens C e C++</td>
-                                    <td class="text-right">
-                                        <a href="#"
-                                           class="btn btn-xs btn-primary">Editar</a>
-                                        <a href="#"
-                                           class="btn btn-xs btn-danger">Excluir</a>
-                                    </td>
-                                </tr>
+                                <ui:repeat value="#{planosEnsinoBean.listar()}" var="p">
+                                    <tr>
+                                        <td>#{p.id}</td>
+                                        <!-- <td>#{p.fkDisciplina}</td> -->
+                                        <td class="text-left">#{p.objetivo}</td>
+                                        <td class="text-left">#{p.conteudo}</td>
+                                        <td class="text-right">
+                                            <a href="#"
+                                               class="btn btn-xs btn-primary">Editar</a>
+                                            <a href="#"
+                                               class="btn btn-xs btn-danger">Excluir</a>
+                                        </td>
+                                    </tr>
+                                </ui:repeat>
                             </tbody>
                         </table>
                     </div>
                     
                     <hr />
-                    
+
                     <div class="clearfix">
                         <a href="cadastro-de-planos-de-ensino.xhtml"
                            class="btn btn-primary">Adicionar</a>
