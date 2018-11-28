@@ -8,7 +8,6 @@ package model;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author 2840481621030
+ * @author jscatena
  */
 @Entity
 @Table(name = "cursos")
@@ -47,7 +46,7 @@ public class Cursos implements Serializable {
     @Basic(optional = false)
     @Column(name = "qtde")
     private int qtde;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkCurso")
+    @OneToMany(mappedBy = "fkCurso")
     private List<Disciplinas> disciplinasList;
 
     public Cursos() {

@@ -8,7 +8,6 @@ package model;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author 2840481621030
+ * @author jscatena
  */
 @Entity
 @Table(name = "disciplinas")
@@ -50,9 +49,9 @@ public class Disciplinas implements Serializable {
     @Column(name = "semestre")
     private int semestre;
     @JoinColumn(name = "fk_curso", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Cursos fkCurso;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkDisciplina")
+    @OneToMany(mappedBy = "fkDisciplina")
     private List<PlanosEnsino> planosEnsinoList;
 
     public Disciplinas() {

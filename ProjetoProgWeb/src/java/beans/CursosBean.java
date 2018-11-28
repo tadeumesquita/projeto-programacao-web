@@ -6,7 +6,11 @@
 package beans;
 
 import dao.CursosDAO;
+import dao.exceptions.IllegalOrphanException;
+import dao.exceptions.NonexistentEntityException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import model.Cursos;
@@ -46,27 +50,22 @@ public class CursosBean {
         return this.cursosDAO.findCursosEntities();
     }
     //peguei no exemplo do Jean
-    public void alterar(){
+    public void alterar(Cursos curso){
         try {
             cursosDAO.edit(curso);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(CursosBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(CursosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public void excluir(){
+    public void excluir(Cursos curso){
         try {
-            cursosDAO.destroy(contato.getId());
+            cursosDAO.destroy(curso.getId());
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(CursosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void excluir(Contatos c){
-        try {
-            cursosDAO.destroy(c.getId());
-        } catch (NonexistentEntityException ex) {
-            Logger.getLogger(CursosBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 }

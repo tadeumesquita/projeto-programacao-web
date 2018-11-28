@@ -19,7 +19,7 @@ import model.PlanosEnsino;
 
 /**
  *
- * @author 2840481621030
+ * @author jscatena
  */
 public class PlanosEnsinoDAO implements Serializable {
 

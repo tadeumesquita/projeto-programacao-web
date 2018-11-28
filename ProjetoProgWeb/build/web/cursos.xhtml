@@ -20,6 +20,7 @@
               href="css/estilo.css" />
     </h:head>
     <h:body>
+        <form jsf:id="form">
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -61,11 +62,11 @@
                                         <td class="text-right">
                                             <a href="#"
                                                 class="btn btn-xs btn-primary"
-                                                jsf:action="#{cursosBean.alterar()">
+                                                jsf:action="#{cursosBean.alterar()}" >
                                                 Editar</a>
                                             <a href="#"
                                                 class="btn btn-xs btn-danger"
-                                                jsf:action="#{cursosBean.excluir()}">
+                                                jsf:action="#{cursosBean.excluir(c)}">
                                                 Excluir</a>
                                         </td>
                                     </tr>
@@ -95,5 +96,6 @@
                 </div>
             </div>
         </div>
+            </form>
     </h:body>
 </html>

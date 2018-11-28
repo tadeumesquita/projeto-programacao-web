@@ -4,7 +4,7 @@
 
 CREATE TABLE public.cursos
 (
-  id integer NOT NULL DEFAULT nextval('cursos_id_seq'::regclass),
+  id SERIAL,
   nome character varying(50) NOT NULL,
   qtde integer NOT NULL,
   CONSTRAINT pk_c_id PRIMARY KEY (id),
@@ -23,8 +23,8 @@ ALTER TABLE public.cursos
 
 CREATE TABLE public.disciplinas
 (
-  id integer NOT NULL DEFAULT nextval('disciplinas_id_seq'::regclass),
-  fk_curso integer DEFAULT nextval('disciplinas_fk_curso_seq'::regclass),
+  id SERIAL,
+  fk_curso integer,
   nome character varying(50) NOT NULL,
   semestre integer NOT NULL,
   CONSTRAINT pk_d_id PRIMARY KEY (id),
@@ -45,8 +45,8 @@ ALTER TABLE public.disciplinas
 
 CREATE TABLE public.planos_ensino
 (
-  id integer NOT NULL DEFAULT nextval('planos_ensino_id_seq'::regclass),
-  fk_disciplina integer DEFAULT nextval('planos_ensino_fk_disciplina_seq'::regclass),
+  id SERIAL,
+  fk_disciplina integer,
   objetivo character varying(50),
   conteudo text,
   CONSTRAINT pk_pe_id PRIMARY KEY (id),

@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author 2840481621030
+ * @author jscatena
  */
 @Entity
 @Table(name = "planos_ensino")
@@ -44,7 +44,7 @@ public class PlanosEnsino implements Serializable {
     @Column(name = "conteudo")
     private String conteudo;
     @JoinColumn(name = "fk_disciplina", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Disciplinas fkDisciplina;
 
     public PlanosEnsino() {

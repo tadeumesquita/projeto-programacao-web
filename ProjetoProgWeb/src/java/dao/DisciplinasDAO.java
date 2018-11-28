@@ -5,7 +5,6 @@
  */
 package dao;
 
-import dao.exceptions.IllegalOrphanException;
 import dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -22,7 +21,7 @@ import model.Disciplinas;
 
 /**
  *
- * @author 2840481621030
+ * @author jscatena
  */
 public class DisciplinasDAO implements Serializable {
 
@@ -76,7 +75,7 @@ public class DisciplinasDAO implements Serializable {
         }
     }
 
-    public void edit(Disciplinas disciplinas) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Disciplinas disciplinas) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -86,18 +85,6 @@ public class DisciplinasDAO implements Serializable {
             Cursos fkCursoNew = disciplinas.getFkCurso();
             List<PlanosEnsino> planosEnsinoListOld = persistentDisciplinas.getPlanosEnsinoList();
             List<PlanosEnsino> planosEnsinoListNew = disciplinas.getPlanosEnsinoList();
-            List<String> illegalOrphanMessages = null;
-            for (PlanosEnsino planosEnsinoListOldPlanosEnsino : planosEnsinoListOld) {
-                if (!planosEnsinoListNew.contains(planosEnsinoListOldPlanosEnsino)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain PlanosEnsino " + planosEnsinoListOldPlanosEnsino + " since its fkDisciplina field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             if (fkCursoNew != null) {
                 fkCursoNew = em.getReference(fkCursoNew.getClass(), fkCursoNew.getId());
                 disciplinas.setFkCurso(fkCursoNew);
@@ -117,6 +104,12 @@ public class DisciplinasDAO implements Serializable {
             if (fkCursoNew != null && !fkCursoNew.equals(fkCursoOld)) {
                 fkCursoNew.getDisciplinasList().add(disciplinas);
                 fkCursoNew = em.merge(fkCursoNew);
+            }
+            for (PlanosEnsino planosEnsinoListOldPlanosEnsino : planosEnsinoListOld) {
+                if (!planosEnsinoListNew.contains(planosEnsinoListOldPlanosEnsino)) {
+                    planosEnsinoListOldPlanosEnsino.setFkDisciplina(null);
+                    planosEnsinoListOldPlanosEnsino = em.merge(planosEnsinoListOldPlanosEnsino);
+                }
             }
             for (PlanosEnsino planosEnsinoListNewPlanosEnsino : planosEnsinoListNew) {
                 if (!planosEnsinoListOld.contains(planosEnsinoListNewPlanosEnsino)) {
@@ -146,7 +139,7 @@ public class DisciplinasDAO implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -158,21 +151,15 @@ public class DisciplinasDAO implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The disciplinas with id " + id + " no longer exists.", enfe);
             }
-            List<String> illegalOrphanMessages = null;
-            List<PlanosEnsino> planosEnsinoListOrphanCheck = disciplinas.getPlanosEnsinoList();
-            for (PlanosEnsino planosEnsinoListOrphanCheckPlanosEnsino : planosEnsinoListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Disciplinas (" + disciplinas + ") cannot be destroyed since the PlanosEnsino " + planosEnsinoListOrphanCheckPlanosEnsino + " in its planosEnsinoList field has a non-nullable fkDisciplina field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             Cursos fkCurso = disciplinas.getFkCurso();
             if (fkCurso != null) {
                 fkCurso.getDisciplinasList().remove(disciplinas);
                 fkCurso = em.merge(fkCurso);
+            }
+            List<PlanosEnsino> planosEnsinoList = disciplinas.getPlanosEnsinoList();
+            for (PlanosEnsino planosEnsinoListPlanosEnsino : planosEnsinoList) {
+                planosEnsinoListPlanosEnsino.setFkDisciplina(null);
+                planosEnsinoListPlanosEnsino = em.merge(planosEnsinoListPlanosEnsino);
             }
             em.remove(disciplinas);
             em.getTransaction().commit();

@@ -5,7 +5,6 @@
  */
 package dao;
 
-import dao.exceptions.IllegalOrphanException;
 import dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -21,7 +20,7 @@ import model.Cursos;
 
 /**
  *
- * @author 2840481621030
+ * @author jscatena
  */
 public class CursosDAO implements Serializable {
 
@@ -66,7 +65,7 @@ public class CursosDAO implements Serializable {
         }
     }
 
-    public void edit(Cursos cursos) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Cursos cursos) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -74,18 +73,6 @@ public class CursosDAO implements Serializable {
             Cursos persistentCursos = em.find(Cursos.class, cursos.getId());
             List<Disciplinas> disciplinasListOld = persistentCursos.getDisciplinasList();
             List<Disciplinas> disciplinasListNew = cursos.getDisciplinasList();
-            List<String> illegalOrphanMessages = null;
-            for (Disciplinas disciplinasListOldDisciplinas : disciplinasListOld) {
-                if (!disciplinasListNew.contains(disciplinasListOldDisciplinas)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Disciplinas " + disciplinasListOldDisciplinas + " since its fkCurso field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             List<Disciplinas> attachedDisciplinasListNew = new ArrayList<Disciplinas>();
             for (Disciplinas disciplinasListNewDisciplinasToAttach : disciplinasListNew) {
                 disciplinasListNewDisciplinasToAttach = em.getReference(disciplinasListNewDisciplinasToAttach.getClass(), disciplinasListNewDisciplinasToAttach.getId());
@@ -94,6 +81,12 @@ public class CursosDAO implements Serializable {
             disciplinasListNew = attachedDisciplinasListNew;
             cursos.setDisciplinasList(disciplinasListNew);
             cursos = em.merge(cursos);
+            for (Disciplinas disciplinasListOldDisciplinas : disciplinasListOld) {
+                if (!disciplinasListNew.contains(disciplinasListOldDisciplinas)) {
+                    disciplinasListOldDisciplinas.setFkCurso(null);
+                    disciplinasListOldDisciplinas = em.merge(disciplinasListOldDisciplinas);
+                }
+            }
             for (Disciplinas disciplinasListNewDisciplinas : disciplinasListNew) {
                 if (!disciplinasListOld.contains(disciplinasListNewDisciplinas)) {
                     Cursos oldFkCursoOfDisciplinasListNewDisciplinas = disciplinasListNewDisciplinas.getFkCurso();
@@ -122,7 +115,7 @@ public class CursosDAO implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -134,16 +127,10 @@ public class CursosDAO implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The cursos with id " + id + " no longer exists.", enfe);
             }
-            List<String> illegalOrphanMessages = null;
-            List<Disciplinas> disciplinasListOrphanCheck = cursos.getDisciplinasList();
-            for (Disciplinas disciplinasListOrphanCheckDisciplinas : disciplinasListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Cursos (" + cursos + ") cannot be destroyed since the Disciplinas " + disciplinasListOrphanCheckDisciplinas + " in its disciplinasList field has a non-nullable fkCurso field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
+            List<Disciplinas> disciplinasList = cursos.getDisciplinasList();
+            for (Disciplinas disciplinasListDisciplinas : disciplinasList) {
+                disciplinasListDisciplinas.setFkCurso(null);
+                disciplinasListDisciplinas = em.merge(disciplinasListDisciplinas);
             }
             em.remove(cursos);
             em.getTransaction().commit();
