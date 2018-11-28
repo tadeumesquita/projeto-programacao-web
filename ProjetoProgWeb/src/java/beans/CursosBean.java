@@ -6,7 +6,6 @@
 package beans;
 
 import dao.CursosDAO;
-import dao.exceptions.IllegalOrphanException;
 import dao.exceptions.NonexistentEntityException;
 import java.util.List;
 import java.util.logging.Level;
