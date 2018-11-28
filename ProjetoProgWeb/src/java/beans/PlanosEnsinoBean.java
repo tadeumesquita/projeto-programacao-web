@@ -6,9 +6,13 @@
 package beans;
 
 import dao.PlanosEnsinoDAO;
+import dao.exceptions.NonexistentEntityException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import model.Disciplinas;
 import model.PlanosEnsino;
 
 /**
@@ -44,5 +48,14 @@ public class PlanosEnsinoBean {
     
     public List<PlanosEnsino> listar() {
         return this.planosEnsinoDAO.findPlanosEnsinoEntities();
+    }
+    
+    
+    public void excluir(PlanosEnsino planosEnsino){
+        try {
+            planosEnsinoDAO.destroy(planosEnsino.getId());
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(DisciplinasBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

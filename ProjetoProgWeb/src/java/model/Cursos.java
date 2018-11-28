@@ -6,7 +6,7 @@
 package model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author jscatena
+ * @author tadeumesquita
  */
 @Entity
 @Table(name = "cursos")
@@ -47,7 +47,7 @@ public class Cursos implements Serializable {
     @Column(name = "qtde")
     private int qtde;
     @OneToMany(mappedBy = "fkCurso")
-    private List<Disciplinas> disciplinasList;
+    private Collection<Disciplinas> disciplinasCollection;
 
     public Cursos() {
     }
@@ -87,12 +87,12 @@ public class Cursos implements Serializable {
     }
 
     @XmlTransient
-    public List<Disciplinas> getDisciplinasList() {
-        return disciplinasList;
+    public Collection<Disciplinas> getDisciplinasCollection() {
+        return disciplinasCollection;
     }
 
-    public void setDisciplinasList(List<Disciplinas> disciplinasList) {
-        this.disciplinasList = disciplinasList;
+    public void setDisciplinasCollection(Collection<Disciplinas> disciplinasCollection) {
+        this.disciplinasCollection = disciplinasCollection;
     }
 
     @Override

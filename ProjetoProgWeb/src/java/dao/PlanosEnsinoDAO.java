@@ -19,7 +19,7 @@ import model.PlanosEnsino;
 
 /**
  *
- * @author jscatena
+ * @author tadeumesquita
  */
 public class PlanosEnsinoDAO implements Serializable {
 
@@ -44,7 +44,7 @@ public class PlanosEnsinoDAO implements Serializable {
             }
             em.persist(planosEnsino);
             if (fkDisciplina != null) {
-                fkDisciplina.getPlanosEnsinoList().add(planosEnsino);
+                fkDisciplina.getPlanosEnsinoCollection().add(planosEnsino);
                 fkDisciplina = em.merge(fkDisciplina);
             }
             em.getTransaction().commit();
@@ -69,11 +69,11 @@ public class PlanosEnsinoDAO implements Serializable {
             }
             planosEnsino = em.merge(planosEnsino);
             if (fkDisciplinaOld != null && !fkDisciplinaOld.equals(fkDisciplinaNew)) {
-                fkDisciplinaOld.getPlanosEnsinoList().remove(planosEnsino);
+                fkDisciplinaOld.getPlanosEnsinoCollection().remove(planosEnsino);
                 fkDisciplinaOld = em.merge(fkDisciplinaOld);
             }
             if (fkDisciplinaNew != null && !fkDisciplinaNew.equals(fkDisciplinaOld)) {
-                fkDisciplinaNew.getPlanosEnsinoList().add(planosEnsino);
+                fkDisciplinaNew.getPlanosEnsinoCollection().add(planosEnsino);
                 fkDisciplinaNew = em.merge(fkDisciplinaNew);
             }
             em.getTransaction().commit();
@@ -107,7 +107,7 @@ public class PlanosEnsinoDAO implements Serializable {
             }
             Disciplinas fkDisciplina = planosEnsino.getFkDisciplina();
             if (fkDisciplina != null) {
-                fkDisciplina.getPlanosEnsinoList().remove(planosEnsino);
+                fkDisciplina.getPlanosEnsinoCollection().remove(planosEnsino);
                 fkDisciplina = em.merge(fkDisciplina);
             }
             em.remove(planosEnsino);

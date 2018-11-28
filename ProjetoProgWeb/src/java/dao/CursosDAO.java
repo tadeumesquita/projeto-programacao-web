@@ -13,6 +13,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import model.Disciplinas;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -20,7 +21,7 @@ import model.Cursos;
 
 /**
  *
- * @author jscatena
+ * @author tadeumesquita
  */
 public class CursosDAO implements Serializable {
 
@@ -34,27 +35,27 @@ public class CursosDAO implements Serializable {
     }
 
     public void create(Cursos cursos) {
-        if (cursos.getDisciplinasList() == null) {
-            cursos.setDisciplinasList(new ArrayList<Disciplinas>());
+        if (cursos.getDisciplinasCollection() == null) {
+            cursos.setDisciplinasCollection(new ArrayList<Disciplinas>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Disciplinas> attachedDisciplinasList = new ArrayList<Disciplinas>();
-            for (Disciplinas disciplinasListDisciplinasToAttach : cursos.getDisciplinasList()) {
-                disciplinasListDisciplinasToAttach = em.getReference(disciplinasListDisciplinasToAttach.getClass(), disciplinasListDisciplinasToAttach.getId());
-                attachedDisciplinasList.add(disciplinasListDisciplinasToAttach);
+            Collection<Disciplinas> attachedDisciplinasCollection = new ArrayList<Disciplinas>();
+            for (Disciplinas disciplinasCollectionDisciplinasToAttach : cursos.getDisciplinasCollection()) {
+                disciplinasCollectionDisciplinasToAttach = em.getReference(disciplinasCollectionDisciplinasToAttach.getClass(), disciplinasCollectionDisciplinasToAttach.getId());
+                attachedDisciplinasCollection.add(disciplinasCollectionDisciplinasToAttach);
             }
-            cursos.setDisciplinasList(attachedDisciplinasList);
+            cursos.setDisciplinasCollection(attachedDisciplinasCollection);
             em.persist(cursos);
-            for (Disciplinas disciplinasListDisciplinas : cursos.getDisciplinasList()) {
-                Cursos oldFkCursoOfDisciplinasListDisciplinas = disciplinasListDisciplinas.getFkCurso();
-                disciplinasListDisciplinas.setFkCurso(cursos);
-                disciplinasListDisciplinas = em.merge(disciplinasListDisciplinas);
-                if (oldFkCursoOfDisciplinasListDisciplinas != null) {
-                    oldFkCursoOfDisciplinasListDisciplinas.getDisciplinasList().remove(disciplinasListDisciplinas);
-                    oldFkCursoOfDisciplinasListDisciplinas = em.merge(oldFkCursoOfDisciplinasListDisciplinas);
+            for (Disciplinas disciplinasCollectionDisciplinas : cursos.getDisciplinasCollection()) {
+                Cursos oldFkCursoOfDisciplinasCollectionDisciplinas = disciplinasCollectionDisciplinas.getFkCurso();
+                disciplinasCollectionDisciplinas.setFkCurso(cursos);
+                disciplinasCollectionDisciplinas = em.merge(disciplinasCollectionDisciplinas);
+                if (oldFkCursoOfDisciplinasCollectionDisciplinas != null) {
+                    oldFkCursoOfDisciplinasCollectionDisciplinas.getDisciplinasCollection().remove(disciplinasCollectionDisciplinas);
+                    oldFkCursoOfDisciplinasCollectionDisciplinas = em.merge(oldFkCursoOfDisciplinasCollectionDisciplinas);
                 }
             }
             em.getTransaction().commit();
@@ -71,30 +72,30 @@ public class CursosDAO implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Cursos persistentCursos = em.find(Cursos.class, cursos.getId());
-            List<Disciplinas> disciplinasListOld = persistentCursos.getDisciplinasList();
-            List<Disciplinas> disciplinasListNew = cursos.getDisciplinasList();
-            List<Disciplinas> attachedDisciplinasListNew = new ArrayList<Disciplinas>();
-            for (Disciplinas disciplinasListNewDisciplinasToAttach : disciplinasListNew) {
-                disciplinasListNewDisciplinasToAttach = em.getReference(disciplinasListNewDisciplinasToAttach.getClass(), disciplinasListNewDisciplinasToAttach.getId());
-                attachedDisciplinasListNew.add(disciplinasListNewDisciplinasToAttach);
+            Collection<Disciplinas> disciplinasCollectionOld = persistentCursos.getDisciplinasCollection();
+            Collection<Disciplinas> disciplinasCollectionNew = cursos.getDisciplinasCollection();
+            Collection<Disciplinas> attachedDisciplinasCollectionNew = new ArrayList<Disciplinas>();
+            for (Disciplinas disciplinasCollectionNewDisciplinasToAttach : disciplinasCollectionNew) {
+                disciplinasCollectionNewDisciplinasToAttach = em.getReference(disciplinasCollectionNewDisciplinasToAttach.getClass(), disciplinasCollectionNewDisciplinasToAttach.getId());
+                attachedDisciplinasCollectionNew.add(disciplinasCollectionNewDisciplinasToAttach);
             }
-            disciplinasListNew = attachedDisciplinasListNew;
-            cursos.setDisciplinasList(disciplinasListNew);
+            disciplinasCollectionNew = attachedDisciplinasCollectionNew;
+            cursos.setDisciplinasCollection(disciplinasCollectionNew);
             cursos = em.merge(cursos);
-            for (Disciplinas disciplinasListOldDisciplinas : disciplinasListOld) {
-                if (!disciplinasListNew.contains(disciplinasListOldDisciplinas)) {
-                    disciplinasListOldDisciplinas.setFkCurso(null);
-                    disciplinasListOldDisciplinas = em.merge(disciplinasListOldDisciplinas);
+            for (Disciplinas disciplinasCollectionOldDisciplinas : disciplinasCollectionOld) {
+                if (!disciplinasCollectionNew.contains(disciplinasCollectionOldDisciplinas)) {
+                    disciplinasCollectionOldDisciplinas.setFkCurso(null);
+                    disciplinasCollectionOldDisciplinas = em.merge(disciplinasCollectionOldDisciplinas);
                 }
             }
-            for (Disciplinas disciplinasListNewDisciplinas : disciplinasListNew) {
-                if (!disciplinasListOld.contains(disciplinasListNewDisciplinas)) {
-                    Cursos oldFkCursoOfDisciplinasListNewDisciplinas = disciplinasListNewDisciplinas.getFkCurso();
-                    disciplinasListNewDisciplinas.setFkCurso(cursos);
-                    disciplinasListNewDisciplinas = em.merge(disciplinasListNewDisciplinas);
-                    if (oldFkCursoOfDisciplinasListNewDisciplinas != null && !oldFkCursoOfDisciplinasListNewDisciplinas.equals(cursos)) {
-                        oldFkCursoOfDisciplinasListNewDisciplinas.getDisciplinasList().remove(disciplinasListNewDisciplinas);
-                        oldFkCursoOfDisciplinasListNewDisciplinas = em.merge(oldFkCursoOfDisciplinasListNewDisciplinas);
+            for (Disciplinas disciplinasCollectionNewDisciplinas : disciplinasCollectionNew) {
+                if (!disciplinasCollectionOld.contains(disciplinasCollectionNewDisciplinas)) {
+                    Cursos oldFkCursoOfDisciplinasCollectionNewDisciplinas = disciplinasCollectionNewDisciplinas.getFkCurso();
+                    disciplinasCollectionNewDisciplinas.setFkCurso(cursos);
+                    disciplinasCollectionNewDisciplinas = em.merge(disciplinasCollectionNewDisciplinas);
+                    if (oldFkCursoOfDisciplinasCollectionNewDisciplinas != null && !oldFkCursoOfDisciplinasCollectionNewDisciplinas.equals(cursos)) {
+                        oldFkCursoOfDisciplinasCollectionNewDisciplinas.getDisciplinasCollection().remove(disciplinasCollectionNewDisciplinas);
+                        oldFkCursoOfDisciplinasCollectionNewDisciplinas = em.merge(oldFkCursoOfDisciplinasCollectionNewDisciplinas);
                     }
                 }
             }
@@ -127,10 +128,10 @@ public class CursosDAO implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The cursos with id " + id + " no longer exists.", enfe);
             }
-            List<Disciplinas> disciplinasList = cursos.getDisciplinasList();
-            for (Disciplinas disciplinasListDisciplinas : disciplinasList) {
-                disciplinasListDisciplinas.setFkCurso(null);
-                disciplinasListDisciplinas = em.merge(disciplinasListDisciplinas);
+            Collection<Disciplinas> disciplinasCollection = cursos.getDisciplinasCollection();
+            for (Disciplinas disciplinasCollectionDisciplinas : disciplinasCollection) {
+                disciplinasCollectionDisciplinas.setFkCurso(null);
+                disciplinasCollectionDisciplinas = em.merge(disciplinasCollectionDisciplinas);
             }
             em.remove(cursos);
             em.getTransaction().commit();

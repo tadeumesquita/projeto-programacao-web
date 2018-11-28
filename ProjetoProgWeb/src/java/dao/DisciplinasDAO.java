@@ -14,6 +14,7 @@ import javax.persistence.criteria.Root;
 import model.Cursos;
 import model.PlanosEnsino;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -21,7 +22,7 @@ import model.Disciplinas;
 
 /**
  *
- * @author jscatena
+ * @author tadeumesquita
  */
 public class DisciplinasDAO implements Serializable {
 
@@ -35,8 +36,8 @@ public class DisciplinasDAO implements Serializable {
     }
 
     public void create(Disciplinas disciplinas) {
-        if (disciplinas.getPlanosEnsinoList() == null) {
-            disciplinas.setPlanosEnsinoList(new ArrayList<PlanosEnsino>());
+        if (disciplinas.getPlanosEnsinoCollection() == null) {
+            disciplinas.setPlanosEnsinoCollection(new ArrayList<PlanosEnsino>());
         }
         EntityManager em = null;
         try {
@@ -47,24 +48,24 @@ public class DisciplinasDAO implements Serializable {
                 fkCurso = em.getReference(fkCurso.getClass(), fkCurso.getId());
                 disciplinas.setFkCurso(fkCurso);
             }
-            List<PlanosEnsino> attachedPlanosEnsinoList = new ArrayList<PlanosEnsino>();
-            for (PlanosEnsino planosEnsinoListPlanosEnsinoToAttach : disciplinas.getPlanosEnsinoList()) {
-                planosEnsinoListPlanosEnsinoToAttach = em.getReference(planosEnsinoListPlanosEnsinoToAttach.getClass(), planosEnsinoListPlanosEnsinoToAttach.getId());
-                attachedPlanosEnsinoList.add(planosEnsinoListPlanosEnsinoToAttach);
+            Collection<PlanosEnsino> attachedPlanosEnsinoCollection = new ArrayList<PlanosEnsino>();
+            for (PlanosEnsino planosEnsinoCollectionPlanosEnsinoToAttach : disciplinas.getPlanosEnsinoCollection()) {
+                planosEnsinoCollectionPlanosEnsinoToAttach = em.getReference(planosEnsinoCollectionPlanosEnsinoToAttach.getClass(), planosEnsinoCollectionPlanosEnsinoToAttach.getId());
+                attachedPlanosEnsinoCollection.add(planosEnsinoCollectionPlanosEnsinoToAttach);
             }
-            disciplinas.setPlanosEnsinoList(attachedPlanosEnsinoList);
+            disciplinas.setPlanosEnsinoCollection(attachedPlanosEnsinoCollection);
             em.persist(disciplinas);
             if (fkCurso != null) {
-                fkCurso.getDisciplinasList().add(disciplinas);
+                fkCurso.getDisciplinasCollection().add(disciplinas);
                 fkCurso = em.merge(fkCurso);
             }
-            for (PlanosEnsino planosEnsinoListPlanosEnsino : disciplinas.getPlanosEnsinoList()) {
-                Disciplinas oldFkDisciplinaOfPlanosEnsinoListPlanosEnsino = planosEnsinoListPlanosEnsino.getFkDisciplina();
-                planosEnsinoListPlanosEnsino.setFkDisciplina(disciplinas);
-                planosEnsinoListPlanosEnsino = em.merge(planosEnsinoListPlanosEnsino);
-                if (oldFkDisciplinaOfPlanosEnsinoListPlanosEnsino != null) {
-                    oldFkDisciplinaOfPlanosEnsinoListPlanosEnsino.getPlanosEnsinoList().remove(planosEnsinoListPlanosEnsino);
-                    oldFkDisciplinaOfPlanosEnsinoListPlanosEnsino = em.merge(oldFkDisciplinaOfPlanosEnsinoListPlanosEnsino);
+            for (PlanosEnsino planosEnsinoCollectionPlanosEnsino : disciplinas.getPlanosEnsinoCollection()) {
+                Disciplinas oldFkDisciplinaOfPlanosEnsinoCollectionPlanosEnsino = planosEnsinoCollectionPlanosEnsino.getFkDisciplina();
+                planosEnsinoCollectionPlanosEnsino.setFkDisciplina(disciplinas);
+                planosEnsinoCollectionPlanosEnsino = em.merge(planosEnsinoCollectionPlanosEnsino);
+                if (oldFkDisciplinaOfPlanosEnsinoCollectionPlanosEnsino != null) {
+                    oldFkDisciplinaOfPlanosEnsinoCollectionPlanosEnsino.getPlanosEnsinoCollection().remove(planosEnsinoCollectionPlanosEnsino);
+                    oldFkDisciplinaOfPlanosEnsinoCollectionPlanosEnsino = em.merge(oldFkDisciplinaOfPlanosEnsinoCollectionPlanosEnsino);
                 }
             }
             em.getTransaction().commit();
@@ -83,42 +84,42 @@ public class DisciplinasDAO implements Serializable {
             Disciplinas persistentDisciplinas = em.find(Disciplinas.class, disciplinas.getId());
             Cursos fkCursoOld = persistentDisciplinas.getFkCurso();
             Cursos fkCursoNew = disciplinas.getFkCurso();
-            List<PlanosEnsino> planosEnsinoListOld = persistentDisciplinas.getPlanosEnsinoList();
-            List<PlanosEnsino> planosEnsinoListNew = disciplinas.getPlanosEnsinoList();
+            Collection<PlanosEnsino> planosEnsinoCollectionOld = persistentDisciplinas.getPlanosEnsinoCollection();
+            Collection<PlanosEnsino> planosEnsinoCollectionNew = disciplinas.getPlanosEnsinoCollection();
             if (fkCursoNew != null) {
                 fkCursoNew = em.getReference(fkCursoNew.getClass(), fkCursoNew.getId());
                 disciplinas.setFkCurso(fkCursoNew);
             }
-            List<PlanosEnsino> attachedPlanosEnsinoListNew = new ArrayList<PlanosEnsino>();
-            for (PlanosEnsino planosEnsinoListNewPlanosEnsinoToAttach : planosEnsinoListNew) {
-                planosEnsinoListNewPlanosEnsinoToAttach = em.getReference(planosEnsinoListNewPlanosEnsinoToAttach.getClass(), planosEnsinoListNewPlanosEnsinoToAttach.getId());
-                attachedPlanosEnsinoListNew.add(planosEnsinoListNewPlanosEnsinoToAttach);
+            Collection<PlanosEnsino> attachedPlanosEnsinoCollectionNew = new ArrayList<PlanosEnsino>();
+            for (PlanosEnsino planosEnsinoCollectionNewPlanosEnsinoToAttach : planosEnsinoCollectionNew) {
+                planosEnsinoCollectionNewPlanosEnsinoToAttach = em.getReference(planosEnsinoCollectionNewPlanosEnsinoToAttach.getClass(), planosEnsinoCollectionNewPlanosEnsinoToAttach.getId());
+                attachedPlanosEnsinoCollectionNew.add(planosEnsinoCollectionNewPlanosEnsinoToAttach);
             }
-            planosEnsinoListNew = attachedPlanosEnsinoListNew;
-            disciplinas.setPlanosEnsinoList(planosEnsinoListNew);
+            planosEnsinoCollectionNew = attachedPlanosEnsinoCollectionNew;
+            disciplinas.setPlanosEnsinoCollection(planosEnsinoCollectionNew);
             disciplinas = em.merge(disciplinas);
             if (fkCursoOld != null && !fkCursoOld.equals(fkCursoNew)) {
-                fkCursoOld.getDisciplinasList().remove(disciplinas);
+                fkCursoOld.getDisciplinasCollection().remove(disciplinas);
                 fkCursoOld = em.merge(fkCursoOld);
             }
             if (fkCursoNew != null && !fkCursoNew.equals(fkCursoOld)) {
-                fkCursoNew.getDisciplinasList().add(disciplinas);
+                fkCursoNew.getDisciplinasCollection().add(disciplinas);
                 fkCursoNew = em.merge(fkCursoNew);
             }
-            for (PlanosEnsino planosEnsinoListOldPlanosEnsino : planosEnsinoListOld) {
-                if (!planosEnsinoListNew.contains(planosEnsinoListOldPlanosEnsino)) {
-                    planosEnsinoListOldPlanosEnsino.setFkDisciplina(null);
-                    planosEnsinoListOldPlanosEnsino = em.merge(planosEnsinoListOldPlanosEnsino);
+            for (PlanosEnsino planosEnsinoCollectionOldPlanosEnsino : planosEnsinoCollectionOld) {
+                if (!planosEnsinoCollectionNew.contains(planosEnsinoCollectionOldPlanosEnsino)) {
+                    planosEnsinoCollectionOldPlanosEnsino.setFkDisciplina(null);
+                    planosEnsinoCollectionOldPlanosEnsino = em.merge(planosEnsinoCollectionOldPlanosEnsino);
                 }
             }
-            for (PlanosEnsino planosEnsinoListNewPlanosEnsino : planosEnsinoListNew) {
-                if (!planosEnsinoListOld.contains(planosEnsinoListNewPlanosEnsino)) {
-                    Disciplinas oldFkDisciplinaOfPlanosEnsinoListNewPlanosEnsino = planosEnsinoListNewPlanosEnsino.getFkDisciplina();
-                    planosEnsinoListNewPlanosEnsino.setFkDisciplina(disciplinas);
-                    planosEnsinoListNewPlanosEnsino = em.merge(planosEnsinoListNewPlanosEnsino);
-                    if (oldFkDisciplinaOfPlanosEnsinoListNewPlanosEnsino != null && !oldFkDisciplinaOfPlanosEnsinoListNewPlanosEnsino.equals(disciplinas)) {
-                        oldFkDisciplinaOfPlanosEnsinoListNewPlanosEnsino.getPlanosEnsinoList().remove(planosEnsinoListNewPlanosEnsino);
-                        oldFkDisciplinaOfPlanosEnsinoListNewPlanosEnsino = em.merge(oldFkDisciplinaOfPlanosEnsinoListNewPlanosEnsino);
+            for (PlanosEnsino planosEnsinoCollectionNewPlanosEnsino : planosEnsinoCollectionNew) {
+                if (!planosEnsinoCollectionOld.contains(planosEnsinoCollectionNewPlanosEnsino)) {
+                    Disciplinas oldFkDisciplinaOfPlanosEnsinoCollectionNewPlanosEnsino = planosEnsinoCollectionNewPlanosEnsino.getFkDisciplina();
+                    planosEnsinoCollectionNewPlanosEnsino.setFkDisciplina(disciplinas);
+                    planosEnsinoCollectionNewPlanosEnsino = em.merge(planosEnsinoCollectionNewPlanosEnsino);
+                    if (oldFkDisciplinaOfPlanosEnsinoCollectionNewPlanosEnsino != null && !oldFkDisciplinaOfPlanosEnsinoCollectionNewPlanosEnsino.equals(disciplinas)) {
+                        oldFkDisciplinaOfPlanosEnsinoCollectionNewPlanosEnsino.getPlanosEnsinoCollection().remove(planosEnsinoCollectionNewPlanosEnsino);
+                        oldFkDisciplinaOfPlanosEnsinoCollectionNewPlanosEnsino = em.merge(oldFkDisciplinaOfPlanosEnsinoCollectionNewPlanosEnsino);
                     }
                 }
             }
@@ -153,13 +154,13 @@ public class DisciplinasDAO implements Serializable {
             }
             Cursos fkCurso = disciplinas.getFkCurso();
             if (fkCurso != null) {
-                fkCurso.getDisciplinasList().remove(disciplinas);
+                fkCurso.getDisciplinasCollection().remove(disciplinas);
                 fkCurso = em.merge(fkCurso);
             }
-            List<PlanosEnsino> planosEnsinoList = disciplinas.getPlanosEnsinoList();
-            for (PlanosEnsino planosEnsinoListPlanosEnsino : planosEnsinoList) {
-                planosEnsinoListPlanosEnsino.setFkDisciplina(null);
-                planosEnsinoListPlanosEnsino = em.merge(planosEnsinoListPlanosEnsino);
+            Collection<PlanosEnsino> planosEnsinoCollection = disciplinas.getPlanosEnsinoCollection();
+            for (PlanosEnsino planosEnsinoCollectionPlanosEnsino : planosEnsinoCollection) {
+                planosEnsinoCollectionPlanosEnsino.setFkDisciplina(null);
+                planosEnsinoCollectionPlanosEnsino = em.merge(planosEnsinoCollectionPlanosEnsino);
             }
             em.remove(disciplinas);
             em.getTransaction().commit();

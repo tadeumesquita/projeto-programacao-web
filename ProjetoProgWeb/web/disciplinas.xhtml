@@ -20,64 +20,70 @@
               href="css/estilo.css" />
     </h:head>
     <h:body>
-        <nav class="navbar navbar-inverse navbar-fixed-top">
+        <form jsf:id="form">
+            <nav class="navbar navbar-inverse navbar-fixed-top">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a href="#"
+                           class="navbar-brand">Controle de Planos de Ensino</a>
+                    </div>
+                </div>
+            </nav>
+
             <div class="container-fluid">
-                <div class="navbar-header">
-                    <a href="#"
-                       class="navbar-brand">Controle de Planos de Ensino</a>
-                </div>
-            </div>
-        </nav>
-        
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-3 col-md-2 sidebar">
-                    <ul class="nav nav-sidebar">
-                        <li><a href="index.xhtml">Início</a></li>
-                        <li><a href="cursos.xhtml">Cursos</a></li>
-                        <li class="active"><a href="disciplinas.xhtml">Disciplinas <span class="sr-only">(current)</span></a></li>
-                        <li><a href="planos-de-ensino.xhtml">Planos de Ensino</a></li>
-                    </ul>
-                </div>
-                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                    <h1 class="page-header">Disciplinas</h1>
-                    
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nome</th>
-                                    <th class="text-center">Sem.</th>
-                                    <th class="col-acoes"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <ui:repeat value="#{disciplinasBean.listar()}" var="d">
+                <div class="row">
+                    <div class="col-sm-3 col-md-2 sidebar">
+                        <ul class="nav nav-sidebar">
+                            <li><a href="index.xhtml">Início</a></li>
+                            <li><a href="cursos.xhtml">Cursos</a></li>
+                            <li class="active"><a href="disciplinas.xhtml">Disciplinas <span class="sr-only">(current)</span></a></li>
+                            <li><a href="planos-de-ensino.xhtml">Planos de Ensino</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                        <h1 class="page-header">Disciplinas</h1>
+
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
                                     <tr>
-                                        <td>#{d.id}</td>
-                                        <td>#{d.nome}</td>
-                                        <td class="text-center">#{d.semestre}</td>
-                                        <td class="text-right">
-                                            <a href="#"
-                                               class="btn btn-xs btn-primary">Editar</a>
-                                            <a href="#"
-                                               class="btn btn-xs btn-danger">Excluir</a>
-                                        </td>
+                                        <th>ID</th>
+                                        <th>Nome</th>
+                                        <th class="text-center">Sem.</th>
+                                        <th class="col-acoes"></th>
                                     </tr>
-                                </ui:repeat>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <hr />
-                    
-                    <div class="clearfix">
-                        <a href="cadastro-de-disciplinas.xhtml"
-                           class="btn btn-primary">Adicionar</a>
+                                </thead>
+                                <tbody>
+                                    <ui:repeat value="#{disciplinasBean.listar()}" var="d">
+                                        <tr>
+                                            <td>#{d.id}</td>
+                                            <td>#{d.nome}</td>
+                                            <td class="text-center">#{d.semestre}</td>
+                                            <td class="text-right">
+                                                <a href="#"
+                                                    class="btn btn-xs btn-primary"
+                                                    jsf:action="#{disciplinasBean.alterar()}" >
+                                                    Editar</a>
+                                                <a href="#"
+                                                    class="btn btn-xs btn-danger"
+                                                    jsf:action="#{disciplinasBean.excluir(d)}">
+                                                    Excluir</a>
+                                            </td>
+                                        </tr>
+                                    </ui:repeat>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <hr />
+
+                        <div class="clearfix">
+                            <a href="cadastro-de-disciplinas.xhtml"
+                               class="btn btn-primary">Adicionar</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </h:body>
 </html>

@@ -6,9 +6,13 @@
 package beans;
 
 import dao.DisciplinasDAO;
+import dao.exceptions.NonexistentEntityException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import model.Cursos;
 import model.Disciplinas;
 
 /**
@@ -45,5 +49,14 @@ public class DisciplinasBean {
     public List<Disciplinas> listar() {
         return this.disciplinasDAO.findDisciplinasEntities();
     }
+    
+    public void excluir(Disciplinas disciplina){
+        try {
+            disciplinasDAO.destroy(disciplina.getId());
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(DisciplinasBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     
 }
