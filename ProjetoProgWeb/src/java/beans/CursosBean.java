@@ -48,16 +48,6 @@ public class CursosBean {
     public List<Cursos> listar() {
         return this.cursosDAO.findCursosEntities();
     }
-    //peguei no exemplo do Jean
-    /*public void alterar(Cursos curso){
-    try {
-    cursosDAO.edit(curso);
-    } catch (NonexistentEntityException ex) {
-    Logger.getLogger(CursosBean.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (Exception ex) {
-    Logger.getLogger(CursosBean.class.getName()).log(Level.SEVERE, null, ex);
-    }
-    }*/
     
     public void excluir(Cursos curso){
         try {
