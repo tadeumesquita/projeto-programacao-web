@@ -39,7 +39,7 @@
                     </ul>
                 </div>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                    <h1 class="page-header">Cadastro de Cursos</h1>
+                    <h1 class="page-header">Edição de Cursos</h1>
                     
                     <h:form>
                         <div class="form-group">
@@ -49,7 +49,7 @@
                                    class="form-control"
                                    id="nome"
                                    placeholder="Ex.: Análise e Desenvolvimento de Sistemas"
-                                   jsf:value="#{cursosBean.curso.nome}" />
+                                   jsf:value="#{editarCursosBean.curso.nome}" />
                         </div>
                         <div class="form-group">
                             <label for="qtde">Quantidade</label>
@@ -59,15 +59,14 @@
                                    id="qtde"
                                    min="1"
                                    max="10"
-                                   jsf:value="#{cursosBean.curso.qtde}" />
+                                   jsf:value="#{editarCursosBean.curso.qtde}" />
                         </div>
                         
                         <hr />
 
                         <div class="clearfix">
-                            <a href="#"
-                               class="btn btn-primary"
-                               jsf:action="#{cursosBean.salvar()}">Salvar</a>
+                            <a href="#{editarCursosBean.salvar()}"
+                               class="btn btn-primary">Salvar</a>
                             <a href="cursos.xhtml"
                                class="btn btn-default">Voltar</a>
                         </div>
