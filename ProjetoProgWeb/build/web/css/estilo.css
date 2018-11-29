@@ -62,3 +62,8 @@ body {
 .col-acoes {
     width: 115px;
 }
+
+.botao-esquerdo
+{
+    margin-right: 5px;
+}

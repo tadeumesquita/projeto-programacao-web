@@ -61,12 +61,12 @@
                                             <td class="text-center">#{c.qtde}</td>
                                             <td class="text-right">
                                                 <a href="#"
-                                                    class="btn btn-xs btn-primary"
-                                                    jsf:action="#{cursosBean.alterar()}" >
+                                                   class="btn btn-xs btn-primary botao-esquerdo"
+                                                   jsf:action="#{editarCursosBean.carregarEdicao(c)}">
                                                     Editar</a>
                                                 <a href="#"
-                                                    class="btn btn-xs btn-danger"
-                                                    jsf:action="#{cursosBean.excluir(c)}">
+                                                   class="btn btn-xs btn-danger"
+                                                   jsf:action="#{cursosBean.excluir(c)}">
                                                     Excluir</a>
                                             </td>
                                         </tr>
